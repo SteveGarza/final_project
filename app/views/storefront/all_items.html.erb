@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap 4 Website Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head><body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">
+    <%= image_tag "hp-market.png",size: "50x50"%>
+  </a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">About Us</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">FAQ</a>
+    </li>
+
+  <!-- Categories -->
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories<span class="caret"></span></a>
+  <ul class="dropdown-menu">
+    <% @categories.each do |category| %>
+      <li><%= link_to category.name, categorical_path(category_id: category.id) %></li>
+    <% end %>
+       <li><%= link_to 'All', root_path %></li>
+  </ul>
+</li>
+<!-- End Categories -->  
+
+<!-- Brands -->
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brands<span class="caret"></span></a>
+  <ul class="dropdown-menu">
+    <% @brands.each do |brand| %>
+      <li><%= link_to brand, branding_path(brand: brand) %></li>
+    <% end %>
+      <li><%= link_to 'All', root_path %></li>
+  </ul>
+</li> 
+<!-- End Brands -->   
+    </li>
+  </ul>
+</nav>
+<br>
+  
+
+
+<h1>Todays Deals</h1>
+
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-md-4">
+      <div class="well">
+        <% if product.image.url.nil? == false %>
+          <p><%= image_tag product.image.url, size: 300 %></p>
+        <% end %>
+        <h3><%= link_to product.name, product %></h3>
+        <p><%= number_to_currency product.price %></p>
+        <p>
+         <p>
+  <a href="#" data-toggle="modal" data-target="#myModal_<%= product.id %>">
+    <span class="glyphicon glyphicon-plus"></span> Quick Info
+  </a>
+</p>
+          </a>
+        </p>
+      </div>
+    </div>
+    <div class="modal fade" id="myModal_<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <% if product.image.url.nil? == false %>
+          <p><%= image_tag product.image.url, class: "storefront-pics" %></p>
+        <% end %>
+        <h3><%= link_to product.name, product %></h3>
+        <p><%= number_to_currency product.price %></p>
+        <p>made by <%= product.brand %></p>
+      </div>
+      <div class="modal-footer">
+        <p>
+          <!-- empty for now -->
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  <% end %>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
